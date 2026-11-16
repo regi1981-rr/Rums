@@ -20,7 +20,7 @@
   var cart = store.get("tresalba-cart", {});
 
   /* ---------- images: fall back gracefully if a photo is missing ---------- */
-  var FALLBACK = "assets/img/bottle-solera.png";
+  var FALLBACK = "assets/img/bottle-solera.jpg";
   var TINT = {
     "blanco-seco": "grayscale(1) brightness(1.3) contrast(1.05)",
     "dorado-5": "hue-rotate(14deg) saturate(1.35) brightness(1.3)",
@@ -86,7 +86,7 @@
       '<span class="label gold">01 — The house</span>' +
       '<p class="story-text" style="margin-top:28px" data-words>' + storyWords + "</p>" +
       '<div class="story-grid">' +
-        '<div class="ph rv">' + img("assets/img/cellar.png", "Rows of oak barrels in the Tresalba solera cellar") + "</div>" +
+        '<div class="ph rv">' + img("assets/img/cellar.jpg", "Rows of oak barrels in the Tresalba solera cellar") + "</div>" +
         '<div class="rv"><p class="lede">Tresalba means three dawns: the three mornings the founder, Aurelio Montaña, is said to have waited for his first cask to be ready. We still work the way he did. Column and pot still rum, married young, then left to move down through a solera of American bourbon barrels and Spanish sherry butts.</p>' +
           '<div class="stats"><div><b>1921</b><span>Solera first laid down</span></div><div><b>3</b><span>Tiers of oak</span></div><div><b>23</b><span>Years in the oldest row</span></div></div>' +
         "</div>" +
@@ -103,7 +103,7 @@
     '<section class="wrap" id="craft">' +
       '<div class="sec-head"><span class="label gold">03 — How rum is made</span><h2 class="serif h-lg">From cane <em>to cask</em></h2></div>' +
       '<div class="craft">' +
-        '<div class="craft-media ph">' + D.craft.map(function (s, i) { return '<img src="' + s.img.replace(".jpg", ".png") + '" alt="' + s.title + '" class="' + (i === 0 ? "on" : "") + '" onerror="this.remove()">'; }).join("") +
+        '<div class="craft-media ph">' + D.craft.map(function (s, i) { return '<img src="' + s.img + '" alt="' + s.title + '" class="' + (i === 0 ? "on" : "") + '" onerror="this.remove()">'; }).join("") +
           '<span class="count">01</span></div>' +
         '<div class="steps">' + D.craft.map(function (s) {
           return '<div class="step" data-step><span class="label">Step ' + s.no + "</span><h3>" + s.title + "</h3><p>" + s.body + "</p>" +
