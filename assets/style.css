@@ -1,5 +1,6 @@
 /* Tresalba — dark, luxurious, editorial */
 :root {
+  color-scheme: dark; /* one deliberate dark look */
   --bg: #0a0806;
   --bg-2: #120e0a;
   --bg-3: #1b150f;
@@ -86,7 +87,7 @@ em { font-style: italic; color: var(--gold); }
 /* nav */
 .nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 60; display: flex; align-items: center; justify-content: space-between;
-  padding: 18px var(--pad); transition: background 0.4s, transform 0.5s var(--ease), border-color 0.4s;
+  padding: calc(18px + env(safe-area-inset-top, 0px)) var(--pad) 18px; transition: background 0.4s, transform 0.5s var(--ease), border-color 0.4s;
   border-bottom: 1px solid transparent;
 }
 .nav.solid { background: rgba(10, 8, 6, 0.82); backdrop-filter: blur(14px); border-color: var(--line); }

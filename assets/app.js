@@ -41,18 +41,18 @@
   /* ---------- shared pieces ---------- */
   function card(p) {
     return '<article class="card">' +
-      '<a href="#/rum/' + p.id + '" class="ph" data-cursor>' +
+      '<a href="#rum-' + p.id + '" class="ph" data-cursor>' +
         '<span class="label card-no">No. ' + p.no + "</span>" +
         (p.limited ? '<span class="badge">Limited</span>' : "") +
         img(p.img, "Bottle of Tresalba " + p.name, p.id) +
       "</a>" +
-      '<div class="card-body"><div><h3><a href="#/rum/' + p.id + '">' + p.name + "</a></h3>" +
+      '<div class="card-body"><div><h3><a href="#rum-' + p.id + '">' + p.name + "</a></h3>" +
         "<p>" + p.style + " · " + p.abv + "% · " + p.size + "</p></div>" +
         (SHOP ? '<span class="price">' + money(p.price) + "</span>" : "") +
       "</div>" +
       '<div class="card-actions">' +
         (SHOP ? '<button class="btn small solid" data-act="add" data-id="' + p.id + '">Add to cart</button>' : "") +
-        '<a class="btn small" href="#/rum/' + p.id + '">' + (SHOP ? "Details" : "Discover") + "</a>" +
+        '<a class="btn small" href="#rum-' + p.id + '">' + (SHOP ? "Details" : "Discover") + "</a>" +
       "</div></article>";
   }
 
@@ -73,7 +73,7 @@
         '<div class="hero-foot">' +
           "<p>Solera rum, aged slowly in bourbon and sherry oak at the foot of the Sierra Nevada.</p>" +
           '<div class="hero-cta">' +
-            (SHOP ? '<a class="btn solid" href="#/shop">Shop the rums</a>' : '<button class="btn solid" data-act="go" data-to="collection">Discover the rums</button>') +
+            (SHOP ? '<a class="btn solid" href="#shop">Shop the rums</a>' : '<button class="btn solid" data-act="go" data-to="collection">Discover the rums</button>') +
             '<button class="btn" data-act="go" data-to="story">Our story</button>' +
           "</div>" +
         "</div>" +
@@ -95,7 +95,7 @@
 
     '<section class="hscroll" id="collection"><div class="hscroll-pin">' +
       '<div class="hscroll-head"><div><span class="label gold">02 — The collection</span><h2 class="serif h-lg" style="margin-top:14px">Five rums, <em>one cellar</em></h2></div>' +
-        (SHOP ? '<a class="link" href="#/shop">View shop</a>' : '<span class="label">Scroll</span>') + "</div>" +
+        (SHOP ? '<a class="link" href="#shop">View shop</a>' : '<span class="label">Scroll</span>') + "</div>" +
       '<div class="hscroll-track">' + D.products.map(card).join("") + "</div>" +
       '<div class="progress"><i></i></div>' +
     "</div></section>" +
@@ -128,7 +128,7 @@
     "</section>" +
 
     '<section class="band"><span class="label gold">' + (SHOP ? "Delivered across the EU" : "The collection") + '</span><h2 class="serif h-xl">Pour slowly.</h2>' +
-      (SHOP ? '<a class="btn solid" href="#/shop">Shop the collection</a>' : '<button class="btn solid" data-act="go" data-to="collection">See the collection</button>') +
+      (SHOP ? '<a class="btn solid" href="#shop">Shop the collection</a>' : '<button class="btn solid" data-act="go" data-to="collection">See the collection</button>') +
     "</section>";
   }
 
@@ -136,8 +136,8 @@
     var p = product(id);
     if (!p) return viewMissing();
     var c = cocktail(p.cocktail);
-    return '<div class="page"><div class="crumb label"><a href="#/">Home</a><span>/</span>' +
-      (SHOP ? '<a href="#/shop">Shop</a>' : '<button class="label" data-act="go" data-to="collection">Collection</button>') + "<span>/</span><span style=\"color:var(--ink)\">" + p.name + "</span></div>" +
+    return '<div class="page"><div class="crumb label"><a href="#home">Home</a><span>/</span>' +
+      (SHOP ? '<a href="#shop">Shop</a>' : '<button class="label" data-act="go" data-to="collection">Collection</button>') + "<span>/</span><span style=\"color:var(--ink)\">" + p.name + "</span></div>" +
       '<div class="pdp">' +
         '<div class="ph">' + (p.limited ? '<span class="badge">Limited</span>' : "") + img(p.img, "Bottle of Tresalba " + p.name, p.id) + "</div>" +
         "<div>" +
@@ -194,7 +194,7 @@
     var lines = cartLines(), t = totals("standard");
     if (!lines.length) {
       body.innerHTML = '<div class="empty"><p class="serif">Your cart is empty</p><p>The cellar is open.</p></div>';
-      foot.innerHTML = '<a class="btn block" href="#/shop" data-act="close">Browse the rums</a>';
+      foot.innerHTML = '<a class="btn block" href="#shop" data-act="close">Browse the rums</a>';
       return;
     }
     body.innerHTML = lines.map(function (l) {
@@ -204,7 +204,7 @@
     var left = D.shipping.freeFrom - t.sub;
     foot.innerHTML = '<span class="fine">' + (left > 0 ? money(left) + " away from free delivery" : "You have free standard delivery") + '</span><div class="ship-bar"><i style="width:' + clamp(t.sub / D.shipping.freeFrom * 100, 0, 100) + '%"></i></div>' +
       '<div class="sum"><span>Subtotal</span><span>' + money(t.sub) + '</span></div><div class="sum"><span>Delivery</span><span>' + (t.ship ? money(t.ship) : "Free") + "</span></div>" +
-      '<div class="sum total"><span>Total</span><span>' + money(t.total) + '</span></div><a class="btn solid block" href="#/checkout" data-act="close">Checkout</a>';
+      '<div class="sum total"><span>Total</span><span>' + money(t.total) + '</span></div><a class="btn solid block" href="#checkout" data-act="close">Checkout</a>';
   }
 
   /* ---------- checkout ---------- */
@@ -216,10 +216,10 @@
     }).join("") + '<div class="sum" style="margin-top:12px"><span>Subtotal</span><span>' + money(t.sub) + '</span></div><div class="sum"><span>Delivery</span><span>' + (t.ship ? money(t.ship) : "Free") + '</span></div><div class="sum total"><span>Total</span><span>' + money(t.total) + '</span></div><span class="fine">Prices include VAT and excise duty.</span>';
   }
   function viewCheckout() {
-    if (!cartLines().length) return '<div class="page"><div class="empty"><p class="serif">Nothing to check out yet</p><p style="margin-bottom:24px">Add a bottle first.</p><a class="btn solid" href="#/shop">Go to the shop</a></div></div>';
+    if (!cartLines().length) return '<div class="page"><div class="empty"><p class="serif">Nothing to check out yet</p><p style="margin-bottom:24px">Add a bottle first.</p><a class="btn solid" href="#shop">Go to the shop</a></div></div>';
     var f = function (name, label, type, cls, extra) { return '<div class="field ' + (cls || "") + '"><label for="f-' + name + '">' + label + '</label><input id="f-' + name + '" name="' + name + '" type="' + (type || "text") + '" ' + (extra || "") + "><small></small></div>"; };
     var countries = ["Austria", "Belgium", "Czechia", "Denmark", "France", "Germany", "Ireland", "Italy", "Netherlands", "Poland", "Portugal", "Spain", "Sweden"];
-    return '<div class="page"><div class="crumb label"><a href="#/shop">Shop</a><span>/</span><span style="color:var(--ink)">Checkout</span></div><h1 class="serif h-lg" style="margin-bottom:44px">Checkout</h1>' +
+    return '<div class="page"><div class="crumb label"><a href="#shop">Shop</a><span>/</span><span style="color:var(--ink)">Checkout</span></div><h1 class="serif h-lg" style="margin-bottom:44px">Checkout</h1>' +
       '<div class="checkout"><form id="checkout" novalidate>' +
         "<fieldset><legend>Contact</legend><div class=\"fields\">" + f("email", "Email", "email", "full", 'autocomplete="email"') + "</div></fieldset>" +
         "<fieldset><legend>Delivery address</legend><div class=\"fields\">" + f("first", "First name", "text", "", 'autocomplete="given-name"') + f("last", "Last name", "text", "", 'autocomplete="family-name"') + f("address", "Street and number", "text", "full", 'autocomplete="street-address"') + f("zip", "Postcode", "text", "", 'autocomplete="postal-code"') + f("city", "City", "text", "", 'autocomplete="address-level2"') +
@@ -252,7 +252,7 @@
       ship: shipMethod, pay: form.elements.pay.value, totals: t,
       lines: cartLines().map(function (l) { return { name: l.p.name, q: l.q, sum: l.q * l.p.price }; })
     });
-    cart = {}; saveCart(); location.hash = "#/order";
+    cart = {}; saveCart(); location.hash = "#order";
   }
   function viewOrder() {
     var o = store.get("tresalba-order", null);
@@ -260,24 +260,24 @@
     return '<div class="page"><div class="confirm"><span class="label gold">Order ' + o.no + '</span><h1 class="serif h-lg">Gracias, <em>' + o.name.split(" ")[0].replace(/[<>&"]/g, "") + '</em>.</h1><p class="lede" style="margin:0 auto">This was a demo order, so nothing has been charged or shipped. On a live shop a confirmation would now go to your email.</p>' +
       '<div class="box">' + o.lines.map(function (l) { return '<div class="sum" style="color:var(--ink)"><span>' + l.q + " × " + l.name + "</span><span>" + money(l.sum) + "</span></div>"; }).join("") +
       '<div class="sum"><span>Delivery (' + o.ship + ")</span><span>" + (o.totals.ship ? money(o.totals.ship) : "Free") + '</span></div><div class="sum total"><span>Total</span><span>' + money(o.totals.total) + '</span></div><span class="fine">Payment method: ' + o.pay + " (demo)</span></div>" +
-      '<a class="btn" href="#/">Back to the house</a></div></div>';
+      '<a class="btn" href="#home">Back to the house</a></div></div>';
   }
-  function viewMissing() { return '<div class="page"><div class="empty"><p class="serif">This page has evaporated</p><p style="margin-bottom:24px">The angels took their share.</p><a class="btn" href="#/">Back home</a></div></div>'; }
+  function viewMissing() { return '<div class="page"><div class="empty"><p class="serif">This page has evaporated</p><p style="margin-bottom:24px">The angels took their share.</p><a class="btn" href="#home">Back home</a></div></div>'; }
 
   /* ---------- chrome: nav, footer, overlays ---------- */
   function chrome() {
     var links = [["story", "Story"], ["collection", "Collection"], ["craft", "Craft"], ["styles", "Styles"], ["cocktails", "Serves"]];
     var nav = document.createElement("header");
     nav.className = "nav"; nav.id = "nav";
-    nav.innerHTML = '<a class="brand" href="#/" aria-label="Tresalba home">TRESALBA<sup>RON</sup></a>' +
-      '<nav class="nav-links" id="nav-links">' + links.map(function (l) { return '<button data-act="go" data-to="' + l[0] + '">' + l[1] + "</button>"; }).join("") + (SHOP ? '<a href="#/shop" data-act="menu-close">Shop</a>' : "") + "</nav>" +
+    nav.innerHTML = '<a class="brand" href="#home" aria-label="Tresalba home">TRESALBA<sup>RON</sup></a>' +
+      '<nav class="nav-links" id="nav-links">' + links.map(function (l) { return '<button data-act="go" data-to="' + l[0] + '">' + l[1] + "</button>"; }).join("") + (SHOP ? '<a href="#shop" data-act="menu-close">Shop</a>' : "") + "</nav>" +
       '<div class="nav-right">' + (SHOP ? '<button class="cart-btn" data-act="cart" aria-label="Open cart">Cart <b data-count>0</b></button>' : "") + '<button class="menu-btn" data-act="menu">Menu</button></div>';
     document.body.insertBefore(nav, app);
 
     var foot = document.createElement("footer");
     foot.innerHTML = '<div class="foot-grid"><div><p class="serif h-md" style="max-width:14ch">Aged where the mountains meet the sea.</p></div>' +
       "<div><h4>Explore</h4><ul>" + links.map(function (l) { return '<li><button data-act="go" data-to="' + l[0] + '">' + l[1] + "</button></li>"; }).join("") + "</ul></div>" +
-      "<div><h4>" + (SHOP ? "Shop" : "The rums") + "</h4><ul>" + D.products.map(function (p) { return '<li><a href="#/rum/' + p.id + '">' + p.name + "</a></li>"; }).join("") + "</ul></div>" +
+      "<div><h4>" + (SHOP ? "Shop" : "The rums") + "</h4><ul>" + D.products.map(function (p) { return '<li><a href="#rum-' + p.id + '">' + p.name + "</a></li>"; }).join("") + "</ul></div>" +
       "<div><h4>Casa Tresalba</h4><ul><li>Hacienda Las Albas</li><li>Sierra Nevada, Colombia</li><li>hola@tresalba.example</li></ul></div></div>" +
       '<div class="foot-mark" aria-hidden="true">TRESALBA</div>' +
       '<div class="legal"><span>© 2026 Casa Tresalba. A fictional brand created for this concept.</span><span>Enjoy responsibly. Not for sale to anyone under the legal drinking age.</span></div>';
@@ -306,14 +306,14 @@
   function openCocktail(id) {
     var c = cocktail(id), p = product(c.rum);
     $("#modal-card").innerHTML = '<div class="ph">' + img(c.img, c.name) + '</div><div class="modal-text"><div style="display:flex;justify-content:space-between;gap:12px"><span class="label gold">' + c.glass + " · " + c.time + '</span><button class="x" data-act="close">Close</button></div><h3>' + c.name + "</h3><p>" + c.blurb + "</p><ul>" + c.ingredients.map(function (i) { return "<li>" + i + "</li>"; }).join("") + "</ul><p>" + c.method + "</p>" +
-      (SHOP ? '<button class="btn solid" data-act="add" data-id="' + p.id + '">Add ' + p.name + " · " + money(p.price) + "</button>" : '<a class="btn" href="#/rum/' + p.id + '" data-act="close">Discover ' + p.name + "</a>") + "</div>";
+      (SHOP ? '<button class="btn solid" data-act="add" data-id="' + p.id + '">Add ' + p.name + " · " + money(p.price) + "</button>" : '<a class="btn" href="#rum-' + p.id + '" data-act="close">Discover ' + p.name + "</a>") + "</div>";
     $("#scrim").classList.add("on"); $("#modal").classList.add("on"); document.body.classList.add("lock");
   }
 
   /* ---------- router ---------- */
   var pendingScroll = null, io;
   function route() {
-    var h = location.hash.replace(/^#\/?/, ""), parts = h.split("/");
+    var h = location.hash.replace(/^#\/?/, ""); if (h === "home") h = ""; var parts = h.indexOf("rum-") === 0 ? ["rum", h.slice(4)] : [h];
     $("#nav-links").classList.remove("open"); var mb = $(".menu-btn"); if (mb) mb.textContent = "Menu";
     document.body.classList.remove("lock"); closeAll();
     var html;
@@ -391,7 +391,7 @@
     var act = el.getAttribute("data-act"), id = el.getAttribute("data-id");
     if (act === "go") {
       var to = el.getAttribute("data-to"); $("#nav-links").classList.remove("open"); document.body.classList.remove("lock"); var mb = $(".menu-btn"); if (mb) mb.textContent = "Menu";
-      if (document.body.getAttribute("data-view") === "home") scrollToId(to); else { pendingScroll = to; location.hash = "#/"; }
+      if (document.body.getAttribute("data-view") === "home") scrollToId(to); else { pendingScroll = to; location.hash = "#home"; }
     } else if (act === "add") {
       var q = el.hasAttribute("data-pq") ? parseInt($("#pq").textContent, 10) : 1;
       addToCart(id, q); closeAll(); toast(product(id).name + " added to cart"); openCart();
